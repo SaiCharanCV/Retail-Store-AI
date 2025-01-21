@@ -30,21 +30,13 @@ price = float(input("Price of the product: "))
 discount = float(input("Discount you offer on the product: "))
 holiday_promotion = input("Any Holiday or Promotion today (yes/no): ").lower()
 holiday_promotion = 1 if holiday_promotion == 'yes' else 0
-
-# Prepare demand input
 labeled_product_category = labeled_product_category[0]
 demand_input = [labeled_product_category, inventory_level, units_sold, units_ordered, price, discount, holiday_promotion]
 scaled_demand_input = demand_scaler.transform([demand_input])
-
-# Predict demand
 model_predicted_demand = model_demand_predictor.predict(scaled_demand_input)
 model_predicted_demand = model_predicted_demand[0][0] * demand_forecast_max
-
-# Prepare competitor price input
 cp_input = [labeled_product_category, inventory_level, units_sold, units_ordered, model_predicted_demand, price, discount, holiday_promotion]
 scaled_cp_input = competitive_scaler.transform([cp_input])
-
-# Predict competitor price
 model_predicted_cp = model_competitive_predictor.predict(scaled_cp_input)
 predicted_cp = model_predicted_cp[0][0] * competitor_price_max
 
